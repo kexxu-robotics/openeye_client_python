@@ -2,7 +2,7 @@
 
 
 # basic install from internet
-pip install git+https://github.com/kexxu/openeye_client_python@0.1.0
+pip install git+https://github.com/kexxu-robotics/openeye_client_python@0.1.0
 python script_mouse.py
 
 
@@ -12,11 +12,11 @@ python script_mouse.py
 
 ## To update
 
-pip install git+https://github.com/kexxu/openeye_client_python@0.1.0 --upgrade
+pip install git+https://github.com/kexxu-robotics/openeye_client_python@0.1.0 --upgrade
 
 ## To update with latest repo code:
 
-pip install git+https://github.com/kexxu/openeye_client_python@0.1.0 --upgrade --force-reinstall
+pip install git+https://github.com/kexxu-robotics/openeye_client_python@0.1.0 --upgrade --force-reinstall
 
 ## install from source (dev mode)
 
