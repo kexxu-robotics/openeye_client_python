@@ -1,7 +1,37 @@
-from pynput.mouse import Button, Controller
 import math
 import time
+
+from pynput.mouse import Button, Controller
+from screeninfo import get_monitors
+
 class MouseController:
+
+    STATE_RUNNING = 1
+    STATE_CALIBRATE_PRE = 2
+    STATE_CALIBRATE_TOP_LEFT = 3
+    STATE_CALIBRATE_TOP_RIGHT = 4
+    STATE_CALIBRATE_BOTTOM_RIGHT = 5
+    STATE_CALIBRATE_BOTTOM_LEFT = 6
+    STATE_CALIBRATE_CENTRE = 7
+
+    def __init__(self, mqtt_listenerer, index_monitor=0,):
+        super(MouseController, self).__init__()
+        self.mqtt_listenerer = mqtt_listenerer
+        self.mqtt_listenerer.subscribe('event_move', self.move)
+        self.mqtt_listenerer.subscribe('event_blink', self.blink)
+
+    @staticmethod
+    def calibrate():
+        list_top_left = []
+        list_top_right = []
+        list_bottom_right = []
+        list_bottom_left = []
+        list_bottom_centre = []
+
+        for m in get_monitors():
+            print(str(m))
+
+        print('calabrating for monitor')
 
     @staticmethod
     def circle():
