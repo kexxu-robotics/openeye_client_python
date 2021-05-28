@@ -25,7 +25,7 @@ setuptools.setup(
     keywords="mouse control openeye eyetracker",
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
-    url="https://github.com/kexxu-robotics/openeye_client_pythont",
+    url="https://github.com/kexxu-robotics/openeye_client_python",
     packages=setuptools.find_packages(include=["openeye_client_python", "openeye_client_python.*"]),
     classifiers=[
         "Programming Language :: Python :: 3",
