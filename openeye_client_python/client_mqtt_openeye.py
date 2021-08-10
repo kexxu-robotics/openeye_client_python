@@ -1,5 +1,5 @@
-from os import linesep
 import sys
+import json
 import paho.mqtt.client as mqtt
 import numpy as np
 import imageio
@@ -11,8 +11,11 @@ class ListenerPrint:
         super(ListenerPrint, self).__init__()
         self.topic = topic
     
-    def message(self, message):
-        print(self.topic + " " + str(len(message)))
+    def message(self, bytearray_json):
+        print(self.topic + " " + str(len(bytearray_json)))
+        print(bytearray_json)
+        sys.stdout.flush()
+
 
 class ListenerShowImageOpencv:
 
@@ -22,6 +25,9 @@ class ListenerShowImageOpencv:
         self.name_image = name_image
     
     def message(self, bytearray_image):
+        print(self.topic + " " + str(len(bytearray_image)))
+        sys.stdout.flush()
+
         image = imageio.imread(bytearray_image)
         # get uint8 mode (float16 is default)
         array_image = np.asarray(image, dtype=np.uint8)
@@ -50,15 +56,13 @@ class ClientMqttOpeneye:
         if rc == 0:
             print("Connected with result code " + str(rc))
             sys.stdout.flush()
-            client.subscribe("$SYS/#")
+            # client.subscribe("$SYS/#")
             client.subscribe("#")
         else:
             raise RuntimeError('error while connection')
 
     # The callback for when a PUBLISH message is received from the server.
     def on_message(self, client, userdata, msg):
-        print(msg.topic + " " + str(len(msg.payload)))
-        sys.stdout.flush()
         if msg.topic in self.dict_listener:
             self.dict_listener[msg.topic].message(msg.payload)
 
@@ -70,3 +74,6 @@ class ClientMqttOpeneye:
 
     def loop_forever(self):
         self.client.loop_forever()
+
+    def send_json(self, topic, json_message):
+        self.client.publish(topic, json.dumps(json_message))
