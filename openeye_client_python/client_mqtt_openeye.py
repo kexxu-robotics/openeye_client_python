@@ -1,3 +1,4 @@
+import os
 import sys
 import json
 import paho.mqtt.client as mqtt
@@ -32,12 +33,27 @@ class ListenerShowImageOpencv:
         # get uint8 mode (float16 is default)
         array_image = np.asarray(image, dtype=np.uint8)
         # swap channels
-        temp = array_image[:,:,2]
-        array_image[:,:,2] = array_image[:,:,0]
-        array_image[:,:,0] = temp
+
+        # temp = array_image[:,:,2]
+        # array_image[:,:,2] = array_image[:,:,0]
+        # array_image[:,:,0] = temp
         array_image = cv2.resize(array_image, dsize=(320, 240), interpolation=cv2.INTER_CUBIC)
         cv2.imshow(self.name_image, array_image)
         cv2.waitKey(1)
+
+class ListenerWriteImage:
+
+    def __init__(self, topic, path_dir_write):
+        super(ListenerWriteImage, self).__init__()
+        self.topic = topic
+        self.path_dir_write = path_dir_write
+        self.index_image = 0
+    
+    def message(self, bytearray_image):
+        path_file_image = os.path.join(self.path_dir_write, 'image_' + str(self.index_image) + '.jpg')
+        with open(path_file_image, 'wb') as file:
+            file.write(bytearray_image)
+        self.index_image += 1
 
 class ClientMqttOpeneye:
 
